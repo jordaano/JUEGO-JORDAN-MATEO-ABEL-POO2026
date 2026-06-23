@@ -1,5 +1,7 @@
 package controlador;
 
+import modelo.Arma;
+import modelo.Armadura;
 import modelo.arquero;
 import modelo.guerrero;
 import modelo.mago;
@@ -42,22 +44,40 @@ public class Batalla {
 
             switch (opcion) {
                 case 1:
-                    listaPersonajes[i] = new guerrero(nombre, id, vida, experiencia);
+                    guerrero g = new guerrero(nombre, id, vida, experiencia);
+                    // NUEVO: se le asigna inventario automáticamente al crear
+                    Arma espadaLarga = new Arma("Espada Larga", 10, "Cortante");
+                    Armadura cota = new Armadura("Cota de Malla", 8, "Física");
+                    g.agregarObjeto(espadaLarga);
+                    g.agregarObjeto(cota);
+                    g.equipar(espadaLarga); // equipa el arma por defecto
+                    listaPersonajes[i] = g;
                     break;
 
                 case 2:
-                    listaPersonajes[i] = new mago(nombre, id, vida, experiencia);
+                    mago m = new mago(nombre, id, vida, experiencia);
+                    Arma bastón = new Arma("Bastón Arcano", 12, "Mágico");
+                    Armadura robesMágicas = new Armadura("Robes Mágicas", 5, "Mágica");
+                    m.agregarObjeto(bastón);
+                    m.agregarObjeto(robesMágicas);
+                    m.equipar(bastón);
+                    listaPersonajes[i] = m;
                     break;
 
                 case 3:
-                    listaPersonajes[i] = new arquero(nombre, id, vida, experiencia);
+                    arquero a = new arquero(nombre, id, vida, experiencia);
+                    Arma arcoElfo = new Arma("Arco Élfico", 8, "Perforante");
+                    Armadura cuero = new Armadura("Armadura de Cuero", 4, "Ligera");
+                    a.agregarObjeto(arcoElfo);
+                    a.agregarObjeto(cuero);
+                    a.equipar(arcoElfo);
+                    listaPersonajes[i] = a;
                     break;
 
                 default:
                     System.out.println("Opción inválida");
                     i--;
             }
-
         }
 
         System.out.println("\n=================================");
@@ -65,8 +85,8 @@ public class Batalla {
         System.out.println("=================================");
 
         for (int i = 0; i < listaPersonajes.length; i++) {
-            System.out.print("[" + i + "] "); 
-            listaPersonajes[i].mostrarInfo(); 
+            System.out.print("[" + i + "] ");
+            listaPersonajes[i].mostrarInfo();
             System.out.println("---------------------------------");
         }
 
@@ -83,21 +103,14 @@ public class Batalla {
         while (luchador1.getVida() > 0 && luchador2.getVida() > 0) {
 
             luchador1.atacar(luchador2);
-
-            System.out.println(luchador2.getNombre()
-                    + " tiene "
-                    + luchador2.getVida()
-                    + " puntos de vida.");
+            System.out.println(luchador2.getNombre() + " tiene " + luchador2.getVida() + " puntos de vida.");
 
             if (luchador2.getVida() <= 0) {
                 break;
             }
 
             luchador2.atacar(luchador1);
-            System.out.println(luchador1.getNombre()
-                    + " tiene "
-                    + luchador1.getVida()
-                    + " puntos de vida.");
+            System.out.println(luchador1.getNombre() + " tiene " + luchador1.getVida() + " puntos de vida.");
         }
 
         System.out.println("\n===== RESULTADO =====");
@@ -109,6 +122,5 @@ public class Batalla {
             System.out.println("Ganador: " + luchador2.getNombre());
             luchador2.subNivel();
         }
-
     }
 }
