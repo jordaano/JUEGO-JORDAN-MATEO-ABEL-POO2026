@@ -1,9 +1,15 @@
 package controlador;
 
+// Importaciones de tus personajes y habilidades desde el paquete modelo
 import modelo.arquero;
 import modelo.guerrero;
 import modelo.mago;
 import modelo.personaje;
+import modelo.ataqueCritico;
+import modelo.hechizoEspecial;
+import modelo.tiroCertero;
+import modelo.sinEnergiaException;
+
 import java.util.Scanner;
 
 public class Batalla {
@@ -42,22 +48,21 @@ public class Batalla {
 
             switch (opcion) {
                 case 1:
-                    listaPersonajes[i] = new guerrero(nombre, id, vida, experiencia);
+                    listaPersonajes[i] = new guerrero(nombre, id, vida, experiencia, new ataqueCritico());
                     break;
 
                 case 2:
-                    listaPersonajes[i] = new mago(nombre, id, vida, experiencia);
+                    listaPersonajes[i] = new mago(nombre, id, vida, experiencia, new hechizoEspecial());
                     break;
 
                 case 3:
-                    listaPersonajes[i] = new arquero(nombre, id, vida, experiencia);
+                    listaPersonajes[i] = new arquero(nombre, id, vida, experiencia, new tiroCertero());
                     break;
 
                 default:
                     System.out.println("Opción inválida");
                     i--;
             }
-
         }
 
         System.out.println("\n=================================");
@@ -80,24 +85,24 @@ public class Batalla {
 
         System.out.println("\n===== INICIA LA BATALLA =====");
 
+        // Bucle principal por turnos interactivos
         while (luchador1.getVida() > 0 && luchador2.getVida() > 0) {
 
-            luchador1.atacar(luchador2);
-
-            System.out.println(luchador2.getNombre()
-                    + " tiene "
-                    + luchador2.getVida()
-                    + " puntos de vida.");
+            // --- TURNO DEL LUCHADOR 1 ---
+            luchador1.getHabilidadEspecial().reducirCooldown(); // El CD baja al iniciar el turno
+            ejecutarTurnoMenu(luchador1, luchador2, sc);
+            
+            System.out.println("\n-> STATUS: " + luchador2.getNombre() + " se queda con " + luchador2.getVida() + " PS.\n");
 
             if (luchador2.getVida() <= 0) {
-                break;
+                break; // Si muere el jugador 2, la batalla termina inmediatamente
             }
 
-            luchador2.atacar(luchador1);
-            System.out.println(luchador1.getNombre()
-                    + " tiene "
-                    + luchador1.getVida()
-                    + " puntos de vida.");
+            // --- TURNO DEL LUCHADOR 2 ---
+            luchador2.getHabilidadEspecial().reducirCooldown(); // El CD baja al iniciar el turno
+            ejecutarTurnoMenu(luchador2, luchador1, sc);
+            
+            System.out.println("\n-> STATUS: " + luchador1.getNombre() + " se queda con " + luchador1.getVida() + " PS.\n");
         }
 
         System.out.println("\n===== RESULTADO =====");
@@ -109,6 +114,63 @@ public class Batalla {
             System.out.println("Ganador: " + luchador2.getNombre());
             luchador2.subNivel();
         }
+    }
 
+    /**
+     * Método auxiliar para desplegar el menú de acciones para el personaje actual.
+     * Garantiza que el turno no pase hasta que se realice una acción válida.
+     */
+    private static void ejecutarTurnoMenu(personaje atacante, personaje enemigo, Scanner sc) {
+        boolean accionRealizada = false;
+
+        while (!accionRealizada) {
+            System.out.println("==================================================");
+            System.out.println("TURNO DE: " + atacante.getNombre().toUpperCase());
+            System.out.println("Vida: " + atacante.getVida() + " | Energía: " + atacante.getEnergia());
+            System.out.println("Habilidad Especial: " + atacante.getHabilidadEspecial().getNombre() 
+                             + " [CD Actual: " + atacante.getHabilidadEspecial().getCooldownAct() + "]");
+            System.out.println("--------------------------------------------------");
+            System.out.println("1. Realizar Ataque Normal");
+            System.out.println("2. Utilizar Defender");
+            System.out.println("3. Usar Habilidad Especial (Gasta Energía)");
+            System.out.print("Seleccione su acción (1-3): ");
+            
+            int opcionAccion = sc.nextInt();
+            System.out.println(); // Espacio estético
+
+            switch (opcionAccion) {
+                case 1:
+                    atacante.atacar(enemigo);
+                    accionRealizada = true; // Turno completado con éxito
+                    break;
+
+                case 2:
+                    atacante.defender();
+                    // Nota: Como tu método defender() actual solo imprime texto, asumimos que gasta el turno protegiéndose.
+                    accionRealizada = true; 
+                    break;
+
+                case 3:
+                    try {
+                        // El método usarHabilidadEspecial devuelve true si se pudo usar, o false si está en CD
+                        boolean exitoHabilidad = atacante.usarHabilidadEspecial(atacante.getHabilidadEspecial(), enemigo);
+                        
+                        if (exitoHabilidad) {
+                            accionRealizada = true; // Ataque especial ejecutado correctamente
+                        } else {
+                            System.out.println("Intenta con otra opción.");
+                        }
+                    } catch (sinEnergiaException e) {
+                        // Captura el error de falta de energía. No rompe el juego, te regresa al menú.
+                        System.out.println("¡ERROR! " + e.getMessage());
+                        System.out.println("Elige una acción que no requiera tanta energía.");
+                    }
+                    break;
+
+                default:
+                    System.out.println("¡Opción inválida! Por favor, selecciona 1, 2 o 3.");
+                    break;
+            }
+        }
     }
 }

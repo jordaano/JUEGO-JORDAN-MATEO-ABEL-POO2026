@@ -1,19 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package modelo;
 
-/**
- *
- * @author Jordann
- */
 public class arquero extends personaje{
     private int precision;
-    public arquero(String nombre, String id, int vida, int experiencia) {
-        super(nombre, id, vida, experiencia);
+
+    public arquero(String nombre, String id, int vida, int experiencia, habilidad habilidadEspecial) {
+        super(nombre, id, vida, experiencia, habilidadEspecial); // Se envía al padre
         this.precision = 10;
     }
+
+    
 
     @Override
     public void atacar(personaje enemigo) {
@@ -41,6 +37,10 @@ public class arquero extends personaje{
         vida += 10;
         precision += 5;
         System.out.println(nombre + " subió de nivel. NIVEL "+nivel);
+    }
+    @Override
+    public int getPoderEspecial() {
+    return precision;
     }
 
 

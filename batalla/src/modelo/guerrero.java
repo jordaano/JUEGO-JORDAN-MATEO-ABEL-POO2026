@@ -4,10 +4,14 @@ public class guerrero extends personaje {
 
     private int fuerza;
 
-    public guerrero(String nombre, String id, int vida, int experiencia) {
-        super(nombre, id, vida,experiencia);
+public guerrero(String nombre, String id, int vida, int experiencia, habilidad habilidadEspecial) {
+        super(nombre, id, vida, experiencia, habilidadEspecial); // Se envía al padre
         this.fuerza = 15;
     }
+
+    
+    
+    
 
     @Override
     public void atacar(personaje enemigo) {
@@ -37,7 +41,11 @@ public class guerrero extends personaje {
         fuerza += 5;
         System.out.println(nombre + " subió de nivel. NIVEL "+nivel);
     }
-
+    
+    @Override
+    public int getPoderEspecial() {
+        return fuerza;
+    }
 
 
 }
