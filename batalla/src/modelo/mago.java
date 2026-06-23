@@ -1,12 +1,15 @@
-
+    
 package modelo;
 
 public class mago extends personaje {
     private int magia;
-    public mago(String nombre, String id, int vida, int experiencia) {
-        super(nombre, id, vida, experiencia);
+
+    public mago(String nombre, String id, int vida, int experiencia, habilidad habilidadEspecial) {
+        super(nombre, id, vida, experiencia, habilidadEspecial); // Se envía al padre
         this.magia = 20;
     }
+
+    
     @Override
     public void atacar(personaje enemigo) {
         System.out.println(nombre + " lanza un hechizo.");
@@ -33,7 +36,13 @@ public class mago extends personaje {
         experiencia += 10;
         vida += 15;
         magia += 10;
-        System.out.println(nombre + " subió de nivel. NIVEL "+nivel);    }
+        System.out.println(nombre + " subió de nivel. NIVEL "+nivel);  
+    }
+    
+    @Override
+    public int getPoderEspecial() {
+    return magia;
+    }
 
 
 }
