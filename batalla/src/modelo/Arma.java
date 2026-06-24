@@ -1,10 +1,10 @@
 package modelo;
 
-public class Arma extends Objeto {
+public class arma extends Objeto {
 
     private String tipoDano;
 
-    public Arma(String nombre, int modificador, String tipoDano) {
+    public arma(String nombre, int modificador, String tipoDano) {
         super(nombre, modificador);
         this.tipoDano = tipoDano;
     }

@@ -35,7 +35,7 @@ public class guerrero extends personaje {
     public void atacar(personaje enemigo) {
         int danioTotal = fuerza;
 
-        if (objetoEquipado instanceof Arma) {
+        if (objetoEquipado instanceof arma) {
             danioTotal += objetoEquipado.getModificador();
             System.out.println(nombre + " ataca con espada y " + objetoEquipado.getNombre());
         } else {
@@ -48,7 +48,7 @@ public class guerrero extends personaje {
 
     @Override
     public void defender() {
-        if (objetoEquipado instanceof Armadura) {
+        if (objetoEquipado instanceof armadura) {
             System.out.println(nombre + " bloquea con escudo y "
                     + objetoEquipado.getNombre()
                     + " (reduce " + objetoEquipado.getModificador() + " de daño)");

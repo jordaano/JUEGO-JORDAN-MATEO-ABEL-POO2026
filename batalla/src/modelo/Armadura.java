@@ -1,10 +1,10 @@
 package modelo;
 
-public class Armadura extends Objeto {
+public class armadura extends Objeto {
 
     private String tipoProteccion;
 
-    public Armadura(String nombre, int modificador, String tipoProteccion) {
+    public armadura(String nombre, int modificador, String tipoProteccion) {
         super(nombre, modificador);
         this.tipoProteccion = tipoProteccion;
     }
