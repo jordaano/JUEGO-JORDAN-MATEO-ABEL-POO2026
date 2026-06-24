@@ -5,11 +5,11 @@ import java.util.ArrayList;
 public class mago extends personaje {
 
     private int magia;
-    private ArrayList<Objeto> inventario;  // NUEVO
-    private Objeto objetoEquipado;         // NUEVO
+    private ArrayList<Objeto> inventario;
+    private Objeto objetoEquipado;
 
-    public mago(String nombre, String id, int vida, int experiencia) {
-        super(nombre, id, vida, experiencia);
+    public mago(String nombre, String id, int vida, int experiencia, habilidad habilidadEspecial) {
+        super(nombre, id, vida, experiencia, habilidadEspecial);
         this.magia = 20;
         this.inventario = new ArrayList<>();
         this.objetoEquipado = null;
@@ -31,25 +31,26 @@ public class mago extends personaje {
         }
     }
 
-    // MODIFICADO: suma modificador del arma equipada
     @Override
     public void atacar(personaje enemigo) {
         int danioTotal = magia;
+
         if (objetoEquipado instanceof Arma) {
             danioTotal += objetoEquipado.getModificador();
             System.out.println(nombre + " lanza un hechizo potenciado con " + objetoEquipado.getNombre());
         } else {
             System.out.println(nombre + " lanza un hechizo.");
         }
+
         enemigo.vida -= danioTotal;
         System.out.println("  Daño causado: " + danioTotal);
     }
 
-    // MODIFICADO: menciona armadura si está equipada
     @Override
     public void defender() {
         if (objetoEquipado instanceof Armadura) {
-            System.out.println(nombre + " crea un escudo mágico reforzado con " + objetoEquipado.getNombre()
+            System.out.println(nombre + " crea un escudo mágico reforzado con "
+                    + objetoEquipado.getNombre()
                     + " (reduce " + objetoEquipado.getModificador() + " de daño)");
         } else {
             System.out.println(nombre + " crea un escudo mágico.");
@@ -63,6 +64,7 @@ public class mago extends personaje {
         System.out.println("ID: " + id);
         System.out.println("Vida: " + vida);
         System.out.println("Experiencia: " + experiencia);
+
         System.out.println("Inventario (" + inventario.size() + " objeto/s):");
         if (inventario.isEmpty()) {
             System.out.println("  (vacío)");
@@ -71,7 +73,9 @@ public class mago extends personaje {
                 o.descripcion();
             }
         }
-        System.out.println("Equipado: " + (objetoEquipado != null ? objetoEquipado.getNombre() : "Ninguno"));
+
+        System.out.println("Equipado: "
+                + (objetoEquipado != null ? objetoEquipado.getNombre() : "Ninguno"));
     }
 
     @Override
@@ -81,5 +85,10 @@ public class mago extends personaje {
         vida += 15;
         magia += 10;
         System.out.println(nombre + " subió de nivel. NIVEL " + nivel);
+    }
+
+    @Override
+    public int getPoderEspecial() {
+        return magia;
     }
 }

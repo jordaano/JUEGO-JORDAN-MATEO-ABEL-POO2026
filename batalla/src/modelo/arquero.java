@@ -5,11 +5,11 @@ import java.util.ArrayList;
 public class arquero extends personaje {
 
     private int precision;
-    private ArrayList<Objeto> inventario;  // NUEVO
-    private Objeto objetoEquipado;         // NUEVO
+    private ArrayList<Objeto> inventario;
+    private Objeto objetoEquipado;
 
-    public arquero(String nombre, String id, int vida, int experiencia) {
-        super(nombre, id, vida, experiencia);
+    public arquero(String nombre, String id, int vida, int experiencia, habilidad habilidadEspecial) {
+        super(nombre, id, vida, experiencia, habilidadEspecial);
         this.precision = 10;
         this.inventario = new ArrayList<>();
         this.objetoEquipado = null;
@@ -31,25 +31,26 @@ public class arquero extends personaje {
         }
     }
 
-    // MODIFICADO: suma modificador del arma equipada
     @Override
     public void atacar(personaje enemigo) {
         int danioTotal = precision;
+
         if (objetoEquipado instanceof Arma) {
             danioTotal += objetoEquipado.getModificador();
             System.out.println(nombre + " dispara una flecha con " + objetoEquipado.getNombre());
         } else {
             System.out.println(nombre + " dispara una flecha.");
         }
+
         enemigo.vida -= danioTotal;
         System.out.println("  Daño causado: " + danioTotal);
     }
 
-    // MODIFICADO: menciona armadura si está equipada
     @Override
     public void defender() {
         if (objetoEquipado instanceof Armadura) {
-            System.out.println(nombre + " esquiva el ataque con agilidad gracias a " + objetoEquipado.getNombre()
+            System.out.println(nombre + " esquiva el ataque con agilidad gracias a "
+                    + objetoEquipado.getNombre()
                     + " (reduce " + objetoEquipado.getModificador() + " de daño)");
         } else {
             System.out.println(nombre + " esquiva el ataque.");
@@ -63,6 +64,7 @@ public class arquero extends personaje {
         System.out.println("ID: " + id);
         System.out.println("Vida: " + vida);
         System.out.println("Experiencia: " + experiencia);
+
         System.out.println("Inventario (" + inventario.size() + " objeto/s):");
         if (inventario.isEmpty()) {
             System.out.println("  (vacío)");
@@ -71,7 +73,9 @@ public class arquero extends personaje {
                 o.descripcion();
             }
         }
-        System.out.println("Equipado: " + (objetoEquipado != null ? objetoEquipado.getNombre() : "Ninguno"));
+
+        System.out.println("Equipado: "
+                + (objetoEquipado != null ? objetoEquipado.getNombre() : "Ninguno"));
     }
 
     @Override
@@ -81,5 +85,10 @@ public class arquero extends personaje {
         vida += 10;
         precision += 5;
         System.out.println(nombre + " subió de nivel. NIVEL " + nivel);
+    }
+
+    @Override
+    public int getPoderEspecial() {
+        return precision;
     }
 }
