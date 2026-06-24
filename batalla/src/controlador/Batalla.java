@@ -1,3 +1,4 @@
+
 package controlador;
 
 // Importaciones de tus personajes y habilidades desde el paquete modelo
@@ -10,7 +11,12 @@ import modelo.hechizoEspecial;
 import modelo.tiroCertero;
 import modelo.sinEnergiaException;
 
+// Nota: Asegúrate de que las clases Arma y Armadura existan en tu paquete modelo o controlador según corresponda.
+// Si están en modelo, recuerda importarlas como: import modelo.Arma; e import modelo.Armadura;
+
 import java.util.Scanner;
+import modelo.Arma;
+import modelo.Armadura;
 
 public class Batalla {
 
@@ -48,15 +54,37 @@ public class Batalla {
 
             switch (opcion) {
                 case 1:
-                    listaPersonajes[i] = new guerrero(nombre, id, vida, experiencia, new ataqueCritico());
+                    // Se crea el guerrero incluyendo su habilidad especial
+                    guerrero g = new guerrero(nombre, id, vida, experiencia, new ataqueCritico());
+                    // Asignación automática de inventario
+                    Arma espadaLarga = new Arma("Espada Larga", 10, "Cortante");
+                    Armadura cota = new Armadura("Cota de Malla", 8, "Física");
+                    g.agregarObjeto(espadaLarga);
+                    g.agregarObjeto(cota);
+                    g.equipar(espadaLarga); // equipa el arma por defecto
+                    listaPersonajes[i] = g;
                     break;
 
                 case 2:
-                    listaPersonajes[i] = new mago(nombre, id, vida, experiencia, new hechizoEspecial());
+                    // Se crea el mago incluyendo su habilidad especial
+                    mago m = new mago(nombre, id, vida, experiencia, new hechizoEspecial());
+                    Arma bastón = new Arma("Bastón Arcano", 12, "Mágico");
+                    Armadura robesMágicas = new Armadura("Robes Mágicas", 5, "Mágica");
+                    m.agregarObjeto(bastón);
+                    m.agregarObjeto(robesMágicas);
+                    m.equipar(bastón);
+                    listaPersonajes[i] = m;
                     break;
 
                 case 3:
-                    listaPersonajes[i] = new arquero(nombre, id, vida, experiencia, new tiroCertero());
+                    // Se crea el arquero incluyendo su habilidad especial
+                    arquero a = new arquero(nombre, id, vida, experiencia, new tiroCertero());
+                    Arma arcoElfo = new Arma("Arco Élfico", 8, "Perforante");
+                    Armadura cuero = new Armadura("Armadura de Cuero", 4, "Ligera");
+                    a.agregarObjeto(arcoElfo);
+                    a.agregarObjeto(cuero);
+                    a.equipar(arcoElfo);
+                    listaPersonajes[i] = a;
                     break;
 
                 default:
@@ -70,8 +98,8 @@ public class Batalla {
         System.out.println("=================================");
 
         for (int i = 0; i < listaPersonajes.length; i++) {
-            System.out.print("[" + i + "] "); 
-            listaPersonajes[i].mostrarInfo(); 
+            System.out.print("[" + i + "] ");
+            listaPersonajes[i].mostrarInfo();
             System.out.println("---------------------------------");
         }
 
@@ -174,3 +202,4 @@ public class Batalla {
         }
     }
 }
+
