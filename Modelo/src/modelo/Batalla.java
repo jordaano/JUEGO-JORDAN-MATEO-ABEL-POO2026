@@ -98,7 +98,7 @@ public class Batalla {
             System.out.println(luchador1.getNombre()
                     + " tiene "
                     + luchador1.getVida()
-                    + " puntos de vida.");
+                    + " puntos de vida");
         }
 
         System.out.println("\n===== RESULTADO =====");
