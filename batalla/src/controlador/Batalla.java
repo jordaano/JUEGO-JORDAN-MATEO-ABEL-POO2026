@@ -15,8 +15,8 @@ import modelo.sinEnergiaException;
 // Si están en modelo, recuerda importarlas como: import modelo.Arma; e import modelo.Armadura;
 
 import java.util.Scanner;
-import modelo.Arma;
-import modelo.Armadura;
+import modelo.arma;
+import modelo.armadura;
 
 public class Batalla {
 
@@ -57,8 +57,8 @@ public class Batalla {
                     // Se crea el guerrero incluyendo su habilidad especial
                     guerrero g = new guerrero(nombre, id, vida, experiencia, new ataqueCritico());
                     // Asignación automática de inventario
-                    Arma espadaLarga = new Arma("Espada Larga", 10, "Cortante");
-                    Armadura cota = new Armadura("Cota de Malla", 8, "Física");
+                    arma espadaLarga = new arma("Espada Larga", 10, "Cortante");
+                    armadura cota = new armadura("Cota de Malla", 8, "Física");
                     g.agregarObjeto(espadaLarga);
                     g.agregarObjeto(cota);
                     g.equipar(espadaLarga); // equipa el arma por defecto
@@ -68,8 +68,8 @@ public class Batalla {
                 case 2:
                     // Se crea el mago incluyendo su habilidad especial
                     mago m = new mago(nombre, id, vida, experiencia, new hechizoEspecial());
-                    Arma bastón = new Arma("Bastón Arcano", 12, "Mágico");
-                    Armadura robesMágicas = new Armadura("Robes Mágicas", 5, "Mágica");
+                    arma bastón = new arma("Bastón Arcano", 12, "Mágico");
+                    armadura robesMágicas = new armadura("Robes Mágicas", 5, "Mágica");
                     m.agregarObjeto(bastón);
                     m.agregarObjeto(robesMágicas);
                     m.equipar(bastón);
@@ -79,8 +79,8 @@ public class Batalla {
                 case 3:
                     // Se crea el arquero incluyendo su habilidad especial
                     arquero a = new arquero(nombre, id, vida, experiencia, new tiroCertero());
-                    Arma arcoElfo = new Arma("Arco Élfico", 8, "Perforante");
-                    Armadura cuero = new Armadura("Armadura de Cuero", 4, "Ligera");
+                    arma arcoElfo = new arma("Arco Élfico", 8, "Perforante");
+                    armadura cuero = new armadura("Armadura de Cuero", 4, "Ligera");
                     a.agregarObjeto(arcoElfo);
                     a.agregarObjeto(cuero);
                     a.equipar(arcoElfo);
@@ -144,10 +144,7 @@ public class Batalla {
         }
     }
 
-    /**
-     * Método auxiliar para desplegar el menú de acciones para el personaje actual.
-     * Garantiza que el turno no pase hasta que se realice una acción válida.
-     */
+
     private static void ejecutarTurnoMenu(personaje atacante, personaje enemigo, Scanner sc) {
         boolean accionRealizada = false;
 

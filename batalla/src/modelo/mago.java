@@ -35,7 +35,7 @@ public class mago extends personaje {
     public void atacar(personaje enemigo) {
         int danioTotal = magia;
 
-        if (objetoEquipado instanceof Arma) {
+        if (objetoEquipado instanceof arma) {
             danioTotal += objetoEquipado.getModificador();
             System.out.println(nombre + " lanza un hechizo potenciado con " + objetoEquipado.getNombre());
         } else {
@@ -48,7 +48,7 @@ public class mago extends personaje {
 
     @Override
     public void defender() {
-        if (objetoEquipado instanceof Armadura) {
+        if (objetoEquipado instanceof armadura) {
             System.out.println(nombre + " crea un escudo mágico reforzado con "
                     + objetoEquipado.getNombre()
                     + " (reduce " + objetoEquipado.getModificador() + " de daño)");

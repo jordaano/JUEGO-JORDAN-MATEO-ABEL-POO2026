@@ -35,7 +35,7 @@ public class arquero extends personaje {
     public void atacar(personaje enemigo) {
         int danioTotal = precision;
 
-        if (objetoEquipado instanceof Arma) {
+        if (objetoEquipado instanceof arma) {
             danioTotal += objetoEquipado.getModificador();
             System.out.println(nombre + " dispara una flecha con " + objetoEquipado.getNombre());
         } else {
@@ -48,7 +48,7 @@ public class arquero extends personaje {
 
     @Override
     public void defender() {
-        if (objetoEquipado instanceof Armadura) {
+        if (objetoEquipado instanceof armadura) {
             System.out.println(nombre + " esquiva el ataque con agilidad gracias a "
                     + objetoEquipado.getNombre()
                     + " (reduce " + objetoEquipado.getModificador() + " de daño)");
